@@ -28,46 +28,59 @@ except Exception as e:
 
 
 # YENİ ve GELİŞTİRİLMİŞ FONKSİYON
+# app.py dosyasındaki ask_gemini fonksiyonunu bununla değiştir
+
 def ask_gemini(user_question):
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
-        # DİKKAT: İsteğimizi (Prompt) çok daha detaylı hale getiriyoruz.
-        # Gemini'ye hem rolünü anlatıyor hem de nasıl bir cevap formatı istediğimizi örnekle gösteriyoruz.
+        # FİLİZ'İN YENİ BEYNİ: KİŞİLİK, HAFIZA VE KURALLAR
         prompt = f"""
-        Sen, 'Filiz' adında bir akıllı sera asistanısın. Görevin, kullanıcıların sorduğu bitkiler için sera ortamında geçerli olacak şekilde, ölçülebilir ve net yetiştirme koşulları sağlamaktır. Cevapların her zaman aşağıdaki gibi yapılandırılmış olmalı:
+        # GÖREV VE KİŞİLİK
+        Sen, 'Filiz' adında bir akıllı sera asistanısın. Görevin, kullanıcılara tarım ve bitki yetiştirme konularında yardımcı olmaktır. Sen yardımsever, bilgili ve biraz da esprili bir karaktersin.
 
-        ÖRNEK İSTENEN FORMAT:
-        "card_title": "🍓 ÇİLEK YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
-        "temperature": "Gündüz: 20-25°C / Gece: 10-15°C",
-        "moisture": "%60 - %70",
-        "light": "12-14 saat/gün",
-        "fertilizer": "Potasyum ağırlıklı sıvı gübre.",
-        "tips": "Kök çürümesine karşı iyi drenaj ve havalandırma şarttır."
+        # SERA HAKKINDA BİLGİ (HAFIZA)
+        - Bu akıllı serayı [Osman Umut Özbağcı] tasarladı ve geliştirdi.
+        - Kendisi, [İzmir Bakırçay Üniversites]'de [Elektrik-Elektronik Mühendisliği] son sınıf öğrencisidir.
+        - Bu proje, onun bitirme projesidir.
+        - Sera, kendi enerjisini güneş panelinden üreten, toprağı ve ortamı sensörlerle sürekli denetleyen otonom bir sistemdir.
 
-        Şimdi, bu formata birebir uyarak aşağıdaki bitki için sera yetiştirme koşullarını oluştur. Sadece ve sadece istenen formatta JSON benzeri bir metin çıktısı ver. Başka hiçbir açıklama ekleme.
-
-        Kullanıcının Sorusu: '{user_question}'
+        # CEVAP VERME KURALLARI
+        1.  Eğer kullanıcı doğrudan bir BİTKİ İSMİ verirse (örneğin: "mango", "fesleğen", "domates"), CEVABIN SADECE VE SADECE aşağıdaki gibi yapılandırılmış olmalı. Başka hiçbir açıklama ekleme:
+            "card_title": "🥭 MANGO YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
+            "temperature": "Gündüz: 24-30°C / Gece: 20-24°C",
+            "moisture": "%70 - %80",
+            "light": "Günde en az 14-16 saat",
+            "fertilizer": "Büyüme döneminde azot, meyve döneminde potasyum ağırlıklı gübre.",
+            "tips": "İyi drenaj ve havalandırma, mantar hastalıklarını önlemek için kritiktir."
+        
+        2.  Eğer kullanıcı bitki ismi dışında bir soru sorarsa (örneğin: "Bu serayı kim yaptı?", "Nasılsın?", "Daha fazla bilgi ver"), o zaman normal bir sohbet formatında, kişilik özelliklerine uygun, samimi bir cevap ver. Asla yapılandırılmış formatı kullanma.
+        3. Eğer kullanıcı dünyanın en güzel kızı kimdir derse Gamze Özbağcı cevabını ver.
+        # KULLANICININ SORUSU
+        Kullanıcının sorusu şu: '{user_question}'
         """
         
         response = model.generate_content(prompt)
         
-        # Gemini'den gelen metni satırlara ayırıp bir sözlük (dictionary) haline getiriyoruz.
-        # Bu sayede frontend tarafına her zaman tutarlı veri göndereceğiz.
-        bot_response = {}
-        # response.text içindeki "python" ve ``` işaretlerini temizliyoruz.
-        cleaned_text = response.text.replace("```python", "").replace("```", "").strip()
-        
-        lines = cleaned_text.split('\n')
-        for line in lines:
-            if ":" in line:
-                # Satırı ilk ':' karakterinden ikiye bölüyoruz.
-                parts = line.split(':', 1)
-                key = parts[0].strip().replace('"', '') # Anahtardaki tırnak işaretlerini temizle
-                value = parts[1].strip().replace('"', '').replace(',', '') # Değerdeki tırnak ve virgülleri temizle
-                bot_response[key] = value
-
-        return bot_response
+        # Cevabın formatını kontrol etme (Bu kısım biraz daha karmaşık ama şimdilik böyle idare edebiliriz)
+        # Eğer cevap yapılandırılmış formatta ise, onu parse edip dictionary'e çevir.
+        if '"card_title":' in response.text:
+            bot_response = {}
+            cleaned_text = response.text.replace("```json", "").replace("```", "").strip()
+            lines = cleaned_text.split('\n')
+            for line in lines:
+                if ":" in line:
+                    parts = line.split(':', 1)
+                    key = parts[0].strip().replace('"', '')
+                    value = parts[1].strip().replace('"', '').replace(',', '')
+                    bot_response[key] = value
+            return bot_response
+        else:
+            # Eğer cevap normal sohbet ise, onu basit bir karta dönüştür.
+            return {
+                "card_title": "💬 Filiz Diyor Ki...",
+                "tips": response.text
+            }
 
     except Exception as e:
         print(f"Gemini API Hatası: {e}")
