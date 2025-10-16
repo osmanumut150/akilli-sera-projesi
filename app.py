@@ -32,7 +32,7 @@ except Exception as e:
 
 def ask_gemini(user_question):
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         
         # FİLİZ'İN YENİ BEYNİ: KİŞİLİK, HAFIZA VE KURALLAR
         prompt = f"""
