@@ -1,7 +1,3 @@
-/*
- * Akıllı Sera Projesi v2 - Blynk Entegreli
- */
-
 // --- BLYNK ve WiFi Kütüphaneleri ---
 #define BLYNK_PRINT Serial // Blynk loglarını Seri Monitörde görmek için
 #include <WiFi.h>
