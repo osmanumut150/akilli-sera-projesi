@@ -53,7 +53,24 @@
                 <div class="feature-card"> <i class="fas fa-brain"></i> <h3>Yapay Zeka Danışmanı: Filiz</h3> <p>Ne ekeceğinizi bilmiyor musunuz? QR kodu okutun ve AI asistanımız Filiz'e sorun, size en ideal koşulları söylesin.</p> </div>
             </div>
         </section>
+<div class="dashboard-container">
+    
+    <div class="filiz-avatar-container">
+        <img id="filiz-img" src="{{ url_for('static', filename='img/filiz_yuz.png') }}" alt="Filiz AI">
+    </div>
 
+    <div class="mode-selector-container">
+        <label for="grow-mode">Yetiştirme Modu:</label>
+        <select id="grow-mode" class="blynk-dropdown">
+            <option value="default" selected disabled>Mod Seçiniz...</option>
+            <option value="yaz">☀️ Yaz Modu</option>
+            <option value="kis">❄️ Kış Modu</option>
+            <option value="kurak">🌵 Kurak Mod</option>
+            <option value="iliman">🌸 Ilıman Mod</option>
+        </select>
+    </div>
+
+</div>
         <section id="demo" class="demo-section">
             <h2 class="section-title">Projemiz Çalışırken</h2>
             <p class="section-subtitle">Projenin özelliklerini ve çalışma prensibini gösteren kısa tanıtım filmimiz.</p>

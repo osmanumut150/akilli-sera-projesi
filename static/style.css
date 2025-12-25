@@ -174,3 +174,65 @@ section { padding: 6rem 0; }
     padding: 2rem 0;
     margin-top: 4rem;
 }
+/* --- GENEL GÖRÜNÜM VE GEÇİŞLER --- */
+body {
+    /* Varsayılan nötr arka plan */
+    background-color: #f4f7f6;
+    /* Renk değişirken yumuşak geçiş olsun (Çok önemli!) */
+    transition: background 1s ease, color 1s ease;
+}
+
+/* --- FİLİZ AVATAR AYARLARI --- */
+.filiz-avatar-container img {
+    width: 200px; /* Boyutu isteğine göre ayarla */
+    height: auto;
+    /* Pikselli görüntüyü korumak için kritik komut: */
+    image-rendering: pixelated; 
+    transition: transform 0.3s ease; /* Resim değişirken hafif zıplama efekti için */
+}
+/* Mod değişince Filiz hafifçe zıplasın */
+.filiz-pop {
+    transform: scale(1.1);
+}
+
+
+/* --- BLYNK TARZI AÇILIR MENÜ --- */
+.mode-selector-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.blynk-dropdown {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #dce4ec;
+    border-radius: 12px; /* Yuvarlatılmış köşeler */
+    background-color: white;
+    color: #2c3e50;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    appearance: none; /* Varsayılan tarayıcı okunu gizle (daha modern durur) */
+    /* Sağ tarafa özel bir ok ikonu eklenebilir ama şimdilik böyle kalsın */
+    text-align-last: center;
+}
+
+.blynk-dropdown:hover {
+    border-color: #3498db;
+}
+
+
+/* --- YAZ MODU TEMASI --- */
+/* JavaScript body'ye 'mode-yaz' sınıfını eklediğinde burası devreye girer */
+body.mode-yaz {
+    /* Güneşli bir gün batımı gradyanı */
+    background: linear-gradient(135deg, #ffc371 0%, #ff5f6d 100%);
+    color: #fff; /* Yazılar beyaz olsun ki okunsun */
+}
+/* Yaz modunda sohbet kutularının rengini de değiştirebiliriz istersen */
+body.mode-yaz .chat-box {
+    background-color: rgba(255, 255, 255, 0.9); /* Hafif transparan beyaz */
+    color: #333;
+}
