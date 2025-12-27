@@ -21,26 +21,22 @@
     </nav>
 
     <header class="hero">
-        <div class="split-video left">
-            <video autoplay loop muted playsinline>
-                <source src="{{ url_for('static', filename='sol_animasyon.mp4') }}" type="video/mp4">
-            </video>
-            <div class="overlay"></div>
-        </div>
-        <div class="split-video right">
-            <video autoplay loop muted playsinline>
-                <source src="{{ url_for('static', filename='sag_animasyon.mp4') }}" type="video/mp4">
-            </video>
-            <div class="overlay"></div>
-        </div>
+            <div class="split-video left">
+                <video autoplay loop muted playsinline><source src="{{ url_for('static', filename='sol_animasyon.mp4') }}" type="video/mp4"></video>
+                <div class="overlay"></div>
+            </div>
+            <div class="split-video right">
+                <video autoplay loop muted playsinline><source src="{{ url_for('static', filename='sag_animasyon.mp4') }}" type="video/mp4"></video>
+                <div class="overlay"></div>
+            </div>
 
-        <div class="hero-content">
-            <span class="badge">AKILLI SERA DİJİTALE HOŞGELDİNİZ</span>
-            <h1>Doğa ile Teknolojinin<br>Kusursuz Uyumu</h1>
-            <p>Yapay Zeka Destekli Otonom Yetiştirme Sistemi</p>
-            <a href="#filiz" class="cta-button pulse-effect"><i class="fas fa-robot"></i> Filiz ile Konuş</a>
-        </div>
-    </header>
+            <div class="hero-content">
+                <span class="badge">AKILLI SERA DİJİTALE HOŞGELDİNİZ</span>
+                <h1>Doğa ile Teknolojinin<br>Kusursuz Uyumu</h1>
+                <p>Yapay Zeka Destekli Otonom Yetiştirme Sistemi</p>
+                <a href="#filiz" class="cta-button pulse-effect"><i class="fas fa-robot"></i> Filiz ile Konuş</a>
+            </div>
+        </header>
 
     <main class="container">
         
@@ -96,7 +92,7 @@
                 <div class="video-frame">
                     <div class="responsive-video">
                         <iframe width="560" height="315" 
-                                src="https://youtu.be/rrU-myXbVkc" 
+                                src="https://youtu.be/rrU-myXbVkc?si=L0iqWNJmUdyqocZ2" 
                                 title="Akıllı Sera Tanıtım" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -108,36 +104,46 @@
         </section>
         
         <section id="filiz" class="section-padding filiz-section">
-            <div class="chat-layout">
-                <div class="filiz-info">
-                    <div class="robot-container" id="filiz-animation">
-                        <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
-                         </div>
-                    <h2>Merhaba, Ben Filiz!</h2>
-                    <p>"Bana 'Çilek nasıl yetişir?' veya 'Serayı Kış Moduna alırsam ne olur?' diye sorabilirsin."</p>
-                </div>
-
-                <div class="chat-box-container">
-                    <div class="chat-header">
-                        <div class="status-dot"></div>
-                        <span>Filiz AI</span>
-                    </div>
-                    
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message assistant-message">
-                            <div class="msg-bubble">
-                                Selam! 👋 Ben Filiz. Bugün seramızda hangi bitkiyi yetiştiriyoruz?
+                <div class="container"> <div class="chat-layout">
+                        <div class="filiz-info">
+                            <div class="robot" id="filiz-animation">
+                                <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+                                <div class="face">
+                                    <div class="mouth"></div>
+                                    <div class="neopixel-ring">
+                                        <div class="led"></div><div class="led"></div><div class="led"></div>
+                                        <div class="led"></div><div class="led"></div><div class="led"></div>
+                                        <div class="led"></div><div class="led"></div><div class="led"></div>
+                                        <div class="led"></div><div class="led"></div><div class="led"></div>
+                                    </div>
+                                </div>
                             </div>
+                            <h2 style="margin-top: 20px; color: var(--secondary-color);">Merhaba, Ben Filiz!</h2>
+                            <p>"Bana bitkilerini sor, sana en uygun iklimi söyleyeyim."</p>
+                        </div>
+
+                        <div class="chat-box-container">
+                            <div class="chat-header">
+                                <div class="status-dot"></div>
+                                <span>Filiz AI | Çevrimiçi Asistan</span>
+                            </div>
+                            
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message assistant-message">
+                                    <div class="msg-bubble">
+                                        Selam! 👋 Ben Filiz AI. Bugün seramızda hangi bitkiyi yetiştiriyoruz?
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form class="chat-input-area" id="chat-form">
+                                <input type="text" id="message-input" placeholder="Bir soru sor..." autocomplete="off">
+                                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                            </form>
                         </div>
                     </div>
-
-                    <form class="chat-input-area" id="chat-form">
-                        <input type="text" id="message-input" placeholder="Bir soru sor..." autocomplete="off">
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
                 </div>
-            </div>
-        </section>
+            </section>
 
     </main>
 
