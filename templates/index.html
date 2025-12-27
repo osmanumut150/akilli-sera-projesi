@@ -3,125 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akıllı Sera Otomasyonu Projesi</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Akıllı Sera | Filiz AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">Akıllı Sera</a>
+        <div class="container nav-container">
+            <a href="#" class="logo">🌱 Akıllı Sera</a>
             <ul class="nav-links">
-                <li><a href="#features">Özellikler</a></li>
-                <li><a href="#demo">Tanıtım</a></li>
-                <li><a href="#filiz">Filiz ile Tanış</a></li>
+                <li><a href="#features">Donanım</a></li>
+                <li><a href="#demo">Sinema Modu</a></li>
+                <li><a href="#filiz" class="active-link">Filiz AI</a></li>
             </ul>
         </div>
     </nav>
 
-   <header class="hero">
-
-        <div class="video-background-left">
+    <header class="hero">
+        <div class="split-video left">
             <video autoplay loop muted playsinline>
                 <source src="{{ url_for('static', filename='sol_animasyon.mp4') }}" type="video/mp4">
             </video>
+            <div class="overlay"></div>
         </div>
-
-        <div class="video-background-right">
+        <div class="split-video right">
             <video autoplay loop muted playsinline>
                 <source src="{{ url_for('static', filename='sag_animasyon.mp4') }}" type="video/mp4">
             </video>
+            <div class="overlay"></div>
         </div>
 
         <div class="hero-content">
-            <h1>Geleceğin Serası, Bugünün Teknolojisiyle</h1>
-            <p>Taşınabilir, akıllı ve tamamen otonom sera otomasyonu ile bitkileriniz her zaman en ideal koşullarda büyüsün.</p>
-            <a href="#filiz" class="cta-button">AI Asistan Filiz ile Sohbet Et</a>
+            <span class="badge">V18.0 FINAL SÜRÜM</span>
+            <h1>Doğa ile Teknolojinin<br>Kusursuz Uyumu</h1>
+            <p>Yapay Zeka Destekli Otonom Yetiştirme Sistemi</p>
+            <a href="#filiz" class="cta-button pulse-effect"><i class="fas fa-robot"></i> Filiz ile Konuş</a>
         </div>
     </header>
 
     <main class="container">
-        <section id="features" class="features-section">
-            <h2 class="section-title">Proje Özellikleri</h2>
+        
+        <section id="features" class="section-padding">
+            <h2 class="section-title">Teknik Özellikler</h2>
+            <p class="section-desc">Detaylı fotoğrafı görmek için kutucuklara tıklayın.</p>
+            
             <div class="features-grid">
-                <div class="feature-card"> <i class="fas fa-tint"></i> <h3>Akıllı Sulama ve Gübreleme</h3> <p>Toprak nem sensörleri ile bitkinin ihtiyacı kadar su otomatik olarak verilir. Peristaltik pompa ile hassas sıvı gübreleme yapılır.</p> </div>
-                <div class="feature-card"> <i class="fas fa-thermometer-half"></i> <h3>İdeal İklim Kontrolü</h3> <p>Ortam sıcaklığı ve nemi sürekli izlenir. Isıtma pedleri ve fan sistemi ile bitkiniz için en uygun iklim otomatik olarak sağlanır.</p> </div>
-                <div class="feature-card"> <i class="fas fa-lightbulb"></i> <h3>Tam Spektrum LED Aydınlatma</h3> <p>Bitkinin ihtiyacı olan kırmızı ve mavi dalga boylarını sağlayan LED'ler ile fotosentez verimi en üst düzeye çıkarılır.</p> </div>
-                <div class="feature-card"> <i class="fas fa-solar-panel"></i> <h3>Sürdürülebilir Enerji</h3> <p>Entegre güneş paneli ve batarya sistemi sayesinde, projemiz kendi enerjisini üreterek çevre dostu bir çözüm sunar.</p> </div>
-                <div class="feature-card"> <i class="fas fa-mobile-alt"></i> <h3>Mobil Kontrol ve İzleme</h3> <p>Blynk uygulaması üzerinden seranızın tüm verilerini anlık olarak takip edebilir, manuel olarak kontrol sağlayabilirsiniz.</p> </div>
-                <div class="feature-card"> <i class="fas fa-brain"></i> <h3>Yapay Zeka Danışmanı: Filiz</h3> <p>Ne ekeceğinizi bilmiyor musunuz? QR kodu okutun ve AI asistanımız Filiz'e sorun, size en ideal koşulları söylesin.</p> </div>
+                <div class="feature-card" onclick="openModal('img/foto_sulama.jpg', 'Peristaltik Pompa Sistemi')">
+                    <i class="fas fa-tint feature-icon"></i>
+                    <h3>Akıllı Sulama</h3>
+                    <p>Kapasitif sensör verisine göre peristaltik pompa ile ml hassasiyetinde sulama.</p>
+                </div>
+
+                <div class="feature-card" onclick="openModal('img/foto_fan.jpg', 'Otomatik Havalandırma')">
+                    <i class="fas fa-wind feature-icon"></i>
+                    <h3>İklim Kontrolü</h3>
+                    <p>DHT22 sensörü ile sıcaklık takibi ve otomatik fan/kapak sistemi ile tahliye.</p>
+                </div>
+
+                <div class="feature-card" onclick="openModal('img/foto_isik.jpg', 'Full Spectrum LED')">
+                    <i class="fas fa-lightbulb feature-icon"></i>
+                    <h3>Bitki Aydınlatma</h3>
+                    <p>Gün ışığını simüle eden Full Spectrum LED'ler ile maksimum fotosentez.</p>
+                </div>
+
+                <div class="feature-card" onclick="openModal('img/foto_kasa.jpg', 'MDF Lazer Kesim Kasa')">
+                    <i class="fas fa-cube feature-icon"></i>
+                    <h3>Kompakt Tasarım</h3>
+                    <p>Lazer kesim MDF iskelet ve 3D baskı parçalar ile modüler, taşınabilir yapı.</p>
+                </div>
+
+                <div class="feature-card" onclick="openModal('img/foto_blynk.jpg', 'Blynk Mobil Arayüz')">
+                    <i class="fas fa-mobile-alt feature-icon"></i>
+                    <h3>Mobil Kontrol</h3>
+                    <p>Blynk IoT altyapısı ile dünyanın her yerinden anlık izleme ve müdahale.</p>
+                </div>
+
+                <div class="feature-card" onclick="openModal('img/foto_filiz.jpg', 'Filiz AI Entegrasyonu')">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <h3>Filiz AI</h3>
+                    <p>Google Gemini tabanlı asistan, bitkinizin dilinden anlayan dijital bahçıvan.</p>
+                </div>
             </div>
         </section>
-<div class="dashboard-container">
-    
-    <div class="filiz-avatar-container">
-        <img id="filiz-img" src="{{ url_for('static', filename='img/filiz_yuz.png') }}" alt="Filiz AI">
-    </div>
 
-    <div class="mode-selector-container">
-        <label for="grow-mode">Yetiştirme Modu:</label>
-        <select id="grow-mode" class="blynk-dropdown">
-            <option value="default" selected disabled>Mod Seçiniz...</option>
-            <option value="yaz">☀️ Yaz Modu</option>
-            <option value="kis">❄️ Kış Modu</option>
-            <option value="kurak">🌵 Kurak Mod</option>
-            <option value="iliman">🌸 Ilıman Mod</option>
-        </select>
-    </div>
-
-</div>
-        <section id="demo" class="demo-section">
-            <h2 class="section-title">Projemiz Çalışırken</h2>
-            <p class="section-subtitle">Projenin özelliklerini ve çalışma prensibini gösteren kısa tanıtım filmimiz.</p>
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <section id="demo" class="section-padding demo-section">
+            <div class="demo-content">
+                <h2 class="section-title text-white">Sistemi Keşfedin</h2>
+                <p class="text-white">Yaz, Kış, Kurak ve Ilıman modlar arasındaki geçişleri izleyin.</p>
+            </div>
+            <div class="video-frame">
+                <video controls poster="{{ url_for('static', filename='img/video_poster.jpg') }}">
+                    <source src="{{ url_for('static', filename='tanitim_filmi.mp4') }}" type="video/mp4">
+                    Tarayıcınız video oynatmayı desteklemiyor.
+                </video>
             </div>
         </section>
         
-        <section id="filiz" class="filiz-section">
-            <h2 class="section-title">Filiz ile Sohbet Edin</h2>
-            <p class="section-subtitle">Aklınızdaki bitkiyi yazın, Filiz size en uygun yetiştirme şartlarını anında söylesin.</p>
-            <div class="chat-wrapper">
-            <div class="robot" id="filiz-animation">
-                <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
-                <div class="face">
-                    <div class="mouth"></div>
-                    <div class="neopixel-ring">
-                        <div class="led"></div><div class="led"></div><div class="led"></div>
-                        <div class="led"></div><div class="led"></div><div class="led"></div>
-                        <div class="led"></div><div class="led"></div><div class="led"></div>
-                        <div class="led"></div><div class="led"></div><div class="led"></div>
+        <section id="filiz" class="section-padding filiz-section">
+            <div class="chat-layout">
+                <div class="filiz-info">
+                    <div class="robot-container" id="filiz-animation">
+                        <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+                         </div>
+                    <h2>Merhaba, Ben Filiz!</h2>
+                    <p>"Bana 'Çilek nasıl yetişir?' veya 'Serayı Kış Moduna alırsam ne olur?' diye sorabilirsin."</p>
                 </div>
-            </div>
-            <div class="label">Filiz</div>
-        </div>
-                <div class="chat-container">
+
+                <div class="chat-box-container">
                     <div class="chat-header">
-                        <div class="assistant-avatar">
-                            <svg width="40" height="40" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#1a1a1a"/><path d="M25 60 A 30 30, 0, 0, 1, 75 60" stroke="#00ffff" stroke-width="5" fill="none" /></svg>
-                        </div>
-                        <div class="assistant-info">
-                            <h2>Filiz</h2>
-                            <p>Akıllı Seranızın Bilgini</p>
-                        </div>
+                        <div class="status-dot"></div>
+                        <span>Çevrimiçi | Gemini 1.5 Flash</span>
                     </div>
+                    
                     <div class="chat-messages" id="chat-messages">
-                        <div class="message assistant-message"><div class="message-content">Merhaba! Akıllı Serana hoş geldin. Hangi bitkiyi yetiştirmeyi düşünüyorsun?</div></div>
+                        <div class="message assistant-message">
+                            <div class="msg-bubble">
+                                Selam! 👋 Ben Filiz. Bugün seramızda hangi bitkiyi yetiştiriyoruz?
+                            </div>
+                        </div>
                     </div>
-                    <form class="chat-form" id="chat-form">
-                        <input type="text" id="message-input" placeholder="Bir bitki ismi yaz..." autocomplete="off">
-                        <button type="submit">Gönder</button>
+
+                    <form class="chat-input-area" id="chat-form">
+                        <input type="text" id="message-input" placeholder="Bir soru sor..." autocomplete="off">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
         </section>
+
     </main>
 
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div>
+    </div>
+
     <footer class="footer">
-        <p>&copy; 2025 Akıllı Sera Otomasyonu Projesi. Tüm Hakları Saklıdır.</p>
+        <p>&copy; 2025 Akıllı Sera Projesi | İTÜ Bitirme Tezi</p>
     </footer>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}?v=3"></script>
+    
+    <script>
+        function openModal(imgSrc, text) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImage");
+            var captionText = document.getElementById("caption");
+            
+            // Gerçek projede fotoğrafların varsa: modalImg.src = "static/" + imgSrc;
+            // Şimdilik test için placeholder koyalım:
+            modalImg.src = "https://via.placeholder.com/800x600?text=" + text; 
+            
+            modal.style.display = "block";
+            captionText.innerHTML = text;
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+        
+        // Modal dışına tıklayınca kapatma
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

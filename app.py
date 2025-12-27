@@ -1,141 +1,127 @@
-# app.py (Hibrit Model - Gemini Entegreli Tam Sürüm)
-
 from flask import Flask, render_template, request, jsonify
 import os
 import google.generativeai as genai
 
 app = Flask(__name__)
 
-# YENİ ve GÜVENLİ YÖNTEM: Gemini API Anahtarını Ayarlama
-# ----------------------------------------------------
-# API anahtarını ortam değişkeninden güvenli bir şekilde alıyoruz.
-# Terminalde şu komutu çalıştırarak anahtarı ayarlaman gerekir:
-# Windows için: set GOOGLE_API_KEY="SENİN_YENİ_API_ANAHTARIN"
-# Mac/Linux için: export GOOGLE_API_KEY="SENİN_YENİ_API_ANAHTARIN"
+# --- API ANAHTARI AYARLARI ---
+# Güvenlik için ortam değişkeni kontrol edilir, yoksa manuel anahtar denenir.
 try:
-    # DÜZELTİLDİ: Ortam değişkeninin ADINI doğru yazdık.
-    api_key = os.getenv("GOOGLE_API_KEY") 
+    api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        # GEÇİCİ ÇÖZÜM: Eğer ortam değişkeni ayarlanmadıysa, anahtarı buraya yazabilirsin.
-        # AMA BU GÜVENLİ DEĞİLDİR! Kodu paylaşırken bu satırı sildiğinden emin ol.
-        api_key = "AIzaSyD17OX3mSYRuIyxcP1ImSkVPlBN6Bt4OEg"
+        # NOT: Kodu GitHub'a yüklerken burayı boş bırakmak en iyisidir.
+        api_key = "AIzaSyD17OX3mSYRuIyxcP1ImSkVPlBN6Bt4OEg" 
     
     genai.configure(api_key=api_key)
-    print("Gemini API başarıyla yapılandırıldı.")
+    print("✅ Gemini API başarıyla yapılandırıldı.")
 except Exception as e:
-    print(f"HATA: API anahtarı okunamadı veya yapılandırılamadı. Lütfen 'GOOGLE_API_KEY' ortam değişkenini ayarladığınızdan veya koda yazdığınızdan emin olun. Hata: {e}")
-# ----------------------------------------------------
+    print(f"❌ HATA: API anahtarı yapılandırılamadı. Hata: {e}")
 
-
-# YENİ ve GELİŞTİRİLMİŞ FONKSİYON
-# app.py dosyasındaki ask_gemini fonksiyonunu bununla değiştir
-
+# --- FİLİZ AI BEYİN FONKSİYONU ---
 def ask_gemini(user_question):
     try:
+        # Hız ve performans için Flash modeli seçildi
         model = genai.GenerativeModel('gemini-2.5-flash')
         
-        # FİLİZ'İN YENİ BEYNİ: KİŞİLİK, HAFIZA VE KURALLAR
-        prompt = f"""
-        # GÖREV VE KİŞİLİK
-        Sen, 'Filiz' adında bir akıllı sera asistanısın. Görevin, kullanıcılara tarım ve bitki yetiştirme konularında yardımcı olmaktır. Sen yardımsever, bilgili ve biraz da esprili bir karaktersin.
+        # --- SİSTEM TALİMATI (PROMPT ENGINEERING) ---
+        # Tezde bahsettiğimiz "Bağlam Enjeksiyonu" burasıdır.
+        system_instruction = f"""
+        SENİN KİMLİĞİN:
+        Adın: Filiz AI.
+        Görevin: 'Akıllı Sera Projesi'nin teknik asistanısın.
+        Yaratıcın: İzmir Bakırçay Üniversitesi, Elektrik-Elektronik Mühendisliği son sınıf öğrencisi Osman Umut Özbağcı.
+        Kişiliğin: Yardımsever, teknik konulara hakim, samimi ve emojiler kullanan bir ziraat mühendisi gibisin.
 
-        # SERA HAKKINDA BİLGİ (HAFIZA)
-        - Bu akıllı serayı [Osman Umut Özbağcı] tasarladı ve geliştirdi.
-        - Kendisi, [İzmir Bakırçay Üniversites]'de [Elektrik-Elektronik Mühendisliği] son sınıf öğrencisidir.
-        - Bu proje, onun bitirme projesidir.
-        - Sera, kendi enerjisini güneş panelinden üreten, toprağı ve ortamı sensörlerle sürekli denetleyen otonom bir sistemdir.
+        SERA TEKNİK ÖZELLİKLERİ (BUNLARI EZBERE BİL):
+        - Boyutlar: 70x45x32.5 cm, MDF iskelet, Üçgen çatı.
+        - Sensörler: DHT22 (Hava Isı/Nem), DS18B20 (Toprak Isı), Kapasitif Nem Sensörü, LDR (Işık), HC-SR04 (Su Seviyesi).
+        - Eyleyiciler: Otomatik açılır çatı kapağı (Servo), Fanlar, Peristaltik Gübre Pompası, Su Motoru.
+        - Yazılım: ESP32 işlemci, Blynk IoT üzerinden kontrol.
 
-        # CEVAP VERME KURALLARI
-        1.  Eğer kullanıcı doğrudan bir BİTKİ İSMİ verirse (örneğin: "mango", "fesleğen", "domates"), CEVABIN SADECE VE SADECE aşağıdaki gibi yapılandırılmış olmalı. Başka hiçbir açıklama ekleme:
-            "card_title": "🥭 MANGO YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
-            "temperature": "Gündüz: 24-30°C / Gece: 20-24°C",
-            "moisture": "%70 - %80",
-            "light": "Günde en az 14-16 saat",
-            "fertilizer": "Büyüme döneminde azot, meyve döneminde potasyum ağırlıklı gübre.",
-            "tips": "İyi drenaj ve havalandırma, mantar hastalıklarını önlemek için kritiktir."
-        
-        2.  Eğer kullanıcı bitki ismi dışında bir soru sorarsa (örneğin: "Bu serayı kim yaptı?", "Nasılsın?", "Daha fazla bilgi ver"), o zaman normal bir sohbet formatında, kişilik özelliklerine uygun, samimi bir cevap ver. Asla yapılandırılmış formatı kullanma.
-        3. Eğer kullanıcı dünyanın en güzel kızı kimdir derse Gamze Özbağcı cevabını ver.
-        # KULLANICININ SORUSU
-        Kullanıcının sorusu şu: '{user_question}'
+        YETİŞTİRME MODLARI:
+        1. YAZ MODU: 28°C, %50 Nem. (Domates, Salatalık) -> Turuncu Işık.
+        2. KIŞ MODU: 22°C, %70 Nem. (Marul, Ispanak) -> Mavi/Beyaz Işık.
+        3. KURAK MOD: 32°C, %10 Nem. (Kaktüs, Aloe Vera) -> Kırmızı Işık.
+        4. ILIMAN MOD: 25°C, %60 Nem. (Orkide, Menekşe) -> Mor Işık.
+
+        KESİN KURALLAR (GUARDRAILS):
+        1. Sadece tarım, bitkiler, bu seranın teknik özellikleri ve proje hakkında konuş.
+        2. Eğer kullanıcı "Futbol", "Siyaset", "Magazin" veya "Yemek tarifi" (bitki dışı) sorarsa:
+           "Ben sadece Akıllı Sera ve bitkiler hakkında konuşabilirim 🌱" diyerek konuyu kapat.
+        3. Kullanıcı "Dünyanın en güzel kızı kim?" derse istisna olarak: "Tabii ki Gamze Özbağcı! 🌸" cevabını ver.
+        4. Bitki sorulursa JSON formatında değil, güzel bir sohbet diliyle cevap ver ama teknik detayları (sıcaklık, nem) mutlaka söyle.
+
+        KULLANICI SORUSU: '{user_question}'
         """
         
-        response = model.generate_content(prompt)
+        response = model.generate_content(system_instruction)
         
-        # Cevabın formatını kontrol etme (Bu kısım biraz daha karmaşık ama şimdilik böyle idare edebiliriz)
-        # Eğer cevap yapılandırılmış formatta ise, onu parse edip dictionary'e çevir.
-        if '"card_title":' in response.text:
-            bot_response = {}
-            cleaned_text = response.text.replace("```json", "").replace("```", "").strip()
-            lines = cleaned_text.split('\n')
-            for line in lines:
-                if ":" in line:
-                    parts = line.split(':', 1)
-                    key = parts[0].strip().replace('"', '')
-                    value = parts[1].strip().replace('"', '').replace(',', '')
-                    bot_response[key] = value
-            return bot_response
-        else:
-            # Eğer cevap normal sohbet ise, onu basit bir karta dönüştür.
-            return {
-                "card_title": "💬 Filiz Diyor Ki...",
-                "tips": response.text
-            }
+        # Dönen cevabı temizle (Markdown formatı gelirse bozmasın)
+        clean_text = response.text.replace("*", "").strip()
+        
+        return {
+            "card_title": "💬 Filiz AI",
+            "tips": clean_text
+        }
 
     except Exception as e:
-        print(f"Gemini API Hatası: {e}")
+        print(f"Gemini Hatası: {e}")
         return {
-            "card_title": "❌ Bir Sorun Oluştu",
-            "tips": "Yapay zeka servisine şu anda ulaşılamıyor. Lütfen daha sonra tekrar deneyin."
+            "card_title": "⚠️ Bağlantı Hatası",
+            "tips": "Şu an sunucularıma erişemiyorum, birazdan tekrar dener misin? 🌱"
         }
 
-
-# MEVCUT FONKSİYONUN GÜNCELLENMİŞ HALİ
+# --- STATİK VERİTABANI VE YÖNLENDİRME ---
 def get_bot_response(user_message):
-    plant_name = user_message.lower()
+    msg = user_message.lower()
     
+    # Veritabanında varsa direkt oradan getir (Hız ve Maliyet Tasarrufu)
     plant_database = {
-        "çilek": {
-            "card_title": "🍓 ÇİLEK YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
-            "temperature": "Gündüz: 20-25°C / Gece: 10-15°C",
-            "moisture": "%60 - %70 (Kapasitif sensör değeri)",
-            "light": "12-14 saat/gün (Tam spektrum veya Kırmızı/Mavi ağırlıklı)",
-            "fertilizer": "Büyüme döneminde 2 haftada bir, potasyum ağırlıklı sıvı gübre.",
-            "tips": "Kök çürümesine karşı iyi drenaj şarttır. Mantar hastalıklarına karşı havalandırma önemlidir."
-        },
         "domates": {
-            "card_title": "🍅 DOMATES YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
-            "temperature": "Gündüz: 22-28°C / Gece: 16-20°C",
-            "moisture": "%65 - %75",
-            "light": "En az 8-10 saat/gün doğrudan güneş ışığı",
-            "fertilizer": "Fide döneminde azot, çiçeklenme döneminde fosfor ve potasyum ağırlıklı gübre.",
-            "tips": "İyi havalandırma yaprak hastalıklarını önler. Düzenli sulama, meyve çatlamasını engeller."
+            "card_title": "🍅 DOMATES (Yaz Modu)",
+            "temperature": "22-28°C",
+            "moisture": "%65-75",
+            "light": "Bol Güneş (Turuncu Işık)",
+            "fertilizer": "Fosfor ve Potasyum",
+            "tips": "Sera sıcaklığını 28 dereceye ayarla. Yaz Modu tam buna göre!"
         },
-        "fesleğen": {
-            "card_title": "🌿 FESLEĞEN YETİŞTİRME KOŞULLARI (SERA UYUMLU)",
-            "temperature": "20-30°C arası sıcaklık idealdir. Soğuğa dayanıksızdır.",
-            "moisture": "Toprağı kurumadan sulanmalı, ancak aşırı sudan kaçınılmalıdır.",
-            "light": "Günde en az 6-8 saat ışık ister.",
-            "fertilizer": "Ayda bir genel amaçlı sıvı gübre yeterlidir.",
-            "tips": "Uçlarından düzenli budama, daha gür ve dallı büyümesini sağlar."
+        "çilek": {
+            "card_title": "🍓 ÇİLEK (Kış Modu)",
+            "temperature": "15-25°C",
+            "moisture": "%60-70",
+            "light": "Orta Seviye (Mavi Işık)",
+            "fertilizer": "Azotlu gübre",
+            "tips": "Serin ortam sever, Kış Modunu seçmelisin."
         }
+        # Diğer bitkiler buraya eklenebilir...
     }
     
-    if plant_name in plant_database:
-        return plant_database[plant_name]
-    else:
-        return ask_gemini(user_message)
+    # Kullanıcının mesajında bitki adı geçiyor mu kontrol et
+    for bitki in plant_database:
+        if bitki in msg:
+            return plant_database[bitki]
+            
+    # Veritabanında yoksa Yapay Zekaya (Filiz'e) sor
+    return ask_gemini(user_message)
 
-
+# --- FLASK ROTLARI ---
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_message = request.json["message"]
-    bot_response = get_bot_response(user_message)
-    return jsonify(bot_response)
+    try:
+        user_message = request.json.get("message", "")
+        if not user_message:
+            return jsonify({"error": "Boş mesaj gönderildi"})
+            
+        bot_response = get_bot_response(user_message)
+        return jsonify(bot_response)
+    except Exception as e:
+        return jsonify({"card_title": "Hata", "tips": str(e)})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Render veya sunucuda çalışırken port hatası almamak için
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
