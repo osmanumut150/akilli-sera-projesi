@@ -128,68 +128,88 @@ body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color);
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
 .modal-content { margin: auto; display: block; width: 80%; max-width: 700px; margin-top: 100px; border-radius: 10px; }
 .close-modal { position: absolute; top: 20px; right: 35px; color: white; font-size: 40px; cursor: pointer; }
-/* --- FİLİZ ROBOT YÜZÜ (GERİ GELDİ!) --- */
-.robot { display: flex; flex-direction: column; align-items: center; position: relative; transform: scale(0.8); }
-.face { 
-    width: 160px; height: 100px; 
-    background: #0b0c10; /* Koyu ekran rengi */
-    border-radius: 10px; 
+/* --- FİLİZ ROBOT YÜZÜ (V2.0 - Gözler Ekranın İçinde) --- */
+.robot { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
     position: relative; 
-    display: flex; justify-content: center; align-items: center; 
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    border: 4px solid #333;
-    z-index: 2;
-}
-.eyes { 
-    display: flex; justify-content: space-between; width: 100px; 
-    position: absolute; top: -30px; z-index: 1;
-}
-.eye { 
-    width: 15px; height: 15px; border-radius: 50%; 
-    background: #27ae60; /* Filiz'in gözleri yeşil */
-    box-shadow: 0 0 10px #27ae60;
-    animation: blink 4s infinite;
-}
-.mouth { 
-    width: 60px; height: 30px; 
-    border-bottom: 4px solid #00ffff; /* Ağız rengi Turkuaz */
-    border-radius: 0 0 50px 50px; 
-    box-shadow: 0 5px 10px rgba(0,255,255,0.3);
+    transform: scale(0.9); /* Biraz küçülttüm, daha tatlı dursun */
 }
 
-/* LED HALKASI */
+.face { 
+    width: 180px; height: 120px; /* Ekranı biraz genişlettik */
+    background: #0b0c10; 
+    border-radius: 15px; 
+    position: relative; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.15); /* Hafif mavi hüzme */
+    border: 4px solid #333;
+    z-index: 2;
+    overflow: hidden; /* Dışarı taşan efektleri keser */
+}
+
+/* GÖZLERİN YENİ KONUMU */
+.eyes { 
+    display: flex; 
+    justify-content: space-between; 
+    width: 80px; /* Gözlerin birbirine mesafesi */
+    position: absolute; 
+    top: 35px; /* Ekranın üstünden ne kadar aşağıda olacağı */
+    z-index: 10; /* Her şeyin üstünde */
+}
+
+.eye { 
+    width: 18px; height: 18px; 
+    border-radius: 50%; 
+    background: #00ffff; /* ARTIK TURKUAZ (CYAN) */
+    box-shadow: 0 0 15px #00ffff; /* Parlama efekti de Turkuaz */
+    animation: blink 4s infinite;
+}
+
+.mouth { 
+    width: 60px; height: 30px; 
+    border-bottom: 4px solid #00ffff; 
+    border-radius: 0 0 50px 50px; 
+    box-shadow: 0 5px 10px rgba(0,255,255,0.3);
+    position: absolute;
+    bottom: 25px; /* Ağzı biraz aşağı sabitledik */
+    z-index: 5;
+}
+
+/* LED HALKASI (Aynı kalıyor) */
 .neopixel-ring { 
-    position: absolute; width: 220px; height: 220px; 
+    position: absolute; width: 240px; height: 240px; 
     display: flex; justify-content: center; align-items: center; 
     z-index: 0; pointer-events: none;
 }
 .led { 
     position: absolute; width: 25px; height: 25px; 
-    background: #9b59b6; /* Mor LED'ler */
+    background: #9b59b6; 
     border-radius: 50%; 
     box-shadow: 0 0 15px #9b59b6;
     animation: pulse 2s infinite;
 }
 
-/* LED'leri Daire Şeklinde Dizme Matematiği */
-.led:nth-child(1) { transform: rotate(0deg) translate(100px); }
-.led:nth-child(2) { transform: rotate(30deg) translate(100px); }
-.led:nth-child(3) { transform: rotate(60deg) translate(100px); }
-.led:nth-child(4) { transform: rotate(90deg) translate(100px); }
-.led:nth-child(5) { transform: rotate(120deg) translate(100px); }
-.led:nth-child(6) { transform: rotate(150deg) translate(100px); }
-.led:nth-child(7) { transform: rotate(180deg) translate(100px); }
-.led:nth-child(8) { transform: rotate(210deg) translate(100px); }
-.led:nth-child(9) { transform: rotate(240deg) translate(100px); }
-.led:nth-child(10) { transform: rotate(270deg) translate(100px); }
-.led:nth-child(11) { transform: rotate(300deg) translate(100px); }
-.led:nth-child(12) { transform: rotate(330deg) translate(100px); }
+/* LED Konumlandırma */
+.led:nth-child(1) { transform: rotate(0deg) translate(110px); }
+.led:nth-child(2) { transform: rotate(30deg) translate(110px); }
+.led:nth-child(3) { transform: rotate(60deg) translate(110px); }
+.led:nth-child(4) { transform: rotate(90deg) translate(110px); }
+.led:nth-child(5) { transform: rotate(120deg) translate(110px); }
+.led:nth-child(6) { transform: rotate(150deg) translate(110px); }
+.led:nth-child(7) { transform: rotate(180deg) translate(110px); }
+.led:nth-child(8) { transform: rotate(210deg) translate(110px); }
+.led:nth-child(9) { transform: rotate(240deg) translate(110px); }
+.led:nth-child(10) { transform: rotate(270deg) translate(110px); }
+.led:nth-child(11) { transform: rotate(300deg) translate(110px); }
+.led:nth-child(12) { transform: rotate(330deg) translate(110px); }
 
-/* Animasyon Keyframe'leri */
+/* Animasyonlar */
 @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-@keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-@keyframes loading { 0% { background: cyan; } 100% { background: blue; } }
-@keyframes speak { 0% { height: 10px; } 50% { height: 30px; } 100% { height: 10px; } }
+@keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 /* --- YENİ SOHBET RENKLERİ (WHATSAPP GÖRÜNÜMÜNDEN ÇIKIŞ) --- */
 
