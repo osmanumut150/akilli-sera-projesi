@@ -254,3 +254,45 @@ body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color);
     background: #ffffff;
     border: 1px solid #e0e0e0;
 }
+/* --- MOBİL UYUMLULUK DÜZELTMELERİ --- */
+@media (max-width: 768px) {
+    /* 1. Navbar Sorunu: Alt alta alıp genişletiyoruz */
+    .nav-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .logo {
+        margin-bottom: 5px;
+    }
+    
+    .nav-links {
+        gap: 15px;
+        font-size: 0.9rem; /* Linkleri biraz küçült sığsın */
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* 2. Filiz Işık Sorunu (Mobil) */
+    .robot {
+        transform: scale(0.8); /* Mobilde robotu biraz daha küçült */
+        margin-bottom: 100px; /* Işıklar yazıya değmesin diye devasa boşluk */
+    }
+    
+    /* Mobilde sohbet kutusu taşmasın */
+    .chat-layout {
+        padding: 15px;
+    }
+    
+    .chat-box-container {
+        height: 400px; /* Mobilde çok uzun olmasın */
+    }
+}
+
+/* --- MASAÜSTÜ İÇİN FİLİZ BOŞLUĞU --- */
+/* Bunu media query'nin DIŞINA, dosyanın herhangi bir yerine ekle */
+.robot {
+    /* Eski margin-bottom: 20px idi, ışıklar taşıyor. */
+    /* Işık halkası yüz kutusundan 75px taşıyor, o yüzden 90px veriyoruz */
+    margin-bottom: 90px !important; 
+}
