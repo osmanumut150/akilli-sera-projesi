@@ -128,54 +128,56 @@ body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color);
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
 .modal-content { margin: auto; display: block; width: 80%; max-width: 700px; margin-top: 100px; border-radius: 10px; }
 .close-modal { position: absolute; top: 20px; right: 35px; color: white; font-size: 40px; cursor: pointer; }
-/* --- FİLİZ ROBOT YÜZÜ (V2.0 - Gözler Ekranın İçinde) --- */
+/* --- FİLİZ ROBOT YÜZÜ (V3.0 - Kompakt Ekran) --- */
 .robot { 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     position: relative; 
-    transform: scale(0.9); /* Biraz küçülttüm, daha tatlı dursun */
+    transform: scale(1); /* Ölçeği normale çektik */
+    margin-bottom: 20px;
 }
 
 .face { 
-    width: 180px; height: 120px; /* Ekranı biraz genişlettik */
+    width: 140px; height: 90px; /* EKRANI KÜÇÜLTTÜK */
     background: #0b0c10; 
-    border-radius: 15px; 
+    border-radius: 12px; 
     position: relative; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.15); /* Hafif mavi hüzme */
-    border: 4px solid #333;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1); 
+    border: 3px solid #333;
     z-index: 2;
-    overflow: hidden; /* Dışarı taşan efektleri keser */
+    overflow: hidden;
 }
 
-/* GÖZLERİN YENİ KONUMU */
+/* Gözlerin Konumu */
 .eyes { 
     display: flex; 
     justify-content: space-between; 
-    width: 80px; /* Gözlerin birbirine mesafesi */
+    width: 60px; /* Göz aralığını daralttık */
     position: absolute; 
-    top: 35px; /* Ekranın üstünden ne kadar aşağıda olacağı */
-    z-index: 10; /* Her şeyin üstünde */
+    top: 25px; 
+    z-index: 10;
 }
 
 .eye { 
-    width: 18px; height: 18px; 
+    width: 14px; height: 14px; /* Gözleri biraz kibarlaştırdık */
     border-radius: 50%; 
-    background: #00ffff; /* ARTIK TURKUAZ (CYAN) */
-    box-shadow: 0 0 15px #00ffff; /* Parlama efekti de Turkuaz */
+    background: #00ffff; 
+    box-shadow: 0 0 10px #00ffff;
     animation: blink 4s infinite;
 }
 
+/* Ağız Konumu */
 .mouth { 
-    width: 60px; height: 30px; 
-    border-bottom: 4px solid #00ffff; 
+    width: 40px; height: 20px; /* Ağzı küçülttük */
+    border-bottom: 3px solid #00ffff; 
     border-radius: 0 0 50px 50px; 
-    box-shadow: 0 5px 10px rgba(0,255,255,0.3);
+    box-shadow: 0 3px 8px rgba(0,255,255,0.3);
     position: absolute;
-    bottom: 25px; /* Ağzı biraz aşağı sabitledik */
+    bottom: 20px;
     z-index: 5;
 }
 
