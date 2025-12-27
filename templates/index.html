@@ -88,15 +88,23 @@
         </section>
 
         <section id="demo" class="section-padding demo-section">
-            <div class="demo-content">
-                <h2 class="section-title text-white">Sistemi Keşfedin</h2>
-                <p class="text-white">Yaz, Kış, Kurak ve Ilıman modlar arasındaki geçişleri izleyin.</p>
-            </div>
-            <div class="video-frame">
-                <video controls poster="{{ url_for('static', filename='img/video_poster.jpg') }}">
-                    <source src="{{ url_for('static', filename='tanitim_filmi.mp4') }}" type="video/mp4">
-                    Tarayıcınız video oynatmayı desteklemiyor.
-                </video>
+            <div class="container">
+                <div class="demo-content" style="text-align: center; margin-bottom: 30px;">
+                    <h2 class="section-title">Sistemi Keşfedin</h2>
+                    <p>Yaz, Kış, Kurak ve Ilıman modlar arasındaki geçişleri izleyin.</p>
+                </div>
+                
+                <div class="video-frame">
+                    <div class="responsive-video">
+                        <iframe width="560" height="315" 
+                                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Akıllı Sera Tanıtım" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </section>
         

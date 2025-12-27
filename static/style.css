@@ -1,4 +1,24 @@
-/* --- HERO VIDEO DÜZENİ --- */
+/* --- TEMİZLENMİŞ VE DÜZELTİLMİŞ STYLE.CSS --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #27ae60; /* Yeşil */
+    --secondary-color: #2c3e50; /* Koyu Mavi */
+    --bg-color: #ecf0f1;
+    --text-color: #333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+
+/* --- NAVBAR --- */
+.navbar { background: white; padding: 1rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+.nav-container { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1200px; margin: 0 auto; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+.nav-links { list-style: none; display: flex; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--secondary-color); font-weight: 600; }
+
+/* --- HERO BÖLÜMÜ (Videolu Giriş) --- */
 .hero {
     position: relative;
     height: 100vh;
@@ -6,175 +26,105 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    text-align: center;
+    color: white; /* Yazıları Beyaz Yapar */
 }
 
-.split-video {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
+/* Arka Plan Videoları */
+.split-video { position: absolute; top: 0; width: 50%; height: 100%; z-index: -2; }
+.split-video.left { left: 0; }
+.split-video.right { right: 0; }
+.split-video video { width: 100%; height: 100%; object-fit: cover; }
+
+/* Siyah Perde (Yazı Okunsun Diye) */
+.overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); /* Karanlık oranını artırdım */
     z-index: -1;
 }
 
-.split-video.left { left: 0; }
-.split-video.right { right: 0; }
+/* Hero Yazıları */
+.hero-content { position: relative; z-index: 10; padding: 20px; }
+.hero-content h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.hero-content p { font-size: 1.2rem; margin-bottom: 20px; color: #f1f1f1; }
 
-.split-video video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-/* Videoların üstüne hafif siyah perde atalım ki yazı okunsun */
-.overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.4);
-}
-
-/* --- YENİ SOHBET ARAYÜZÜ (MODERN) --- */
-.filiz-section {
-    background: #f4f7f6; /* Hafif gri zemin */
-}
-
-.chat-layout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    padding: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.filiz-info {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 250px;
-}
-
-.chat-box-container {
-    flex: 2;
-    background: #f0f2f5; /* WhatsApp arka planı gibi */
-    border-radius: 15px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 500px; /* Sabit yükseklik */
-    border: 1px solid #ddd;
-}
-
-.chat-header {
-    background: #27ae60;
+/* V18 Badge Tasarımı */
+.badge {
+    background: rgba(39, 174, 96, 0.8);
     color: white;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
-.status-dot {
-    width: 10px; height: 10px;
-    background: #2ecc71;
-    border-radius: 50%;
-    border: 1px solid white;
+.cta-button {
+    background: var(--primary-color); color: white; padding: 15px 30px;
+    border-radius: 50px; text-decoration: none; font-weight: bold;
+    display: inline-block; transition: transform 0.3s;
+}
+.cta-button:hover { transform: scale(1.05); background: #2ecc71; }
+
+/* --- ÖZELLİKLER (Kutucuklar) --- */
+.container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 50px 0; }
+.section-title { text-align: center; font-size: 2.5rem; color: var(--secondary-color); margin-bottom: 10px; }
+.section-desc { text-align: center; margin-bottom: 40px; color: #7f8c8d; }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Yan yana dizilme kuralı */
+    gap: 30px;
 }
 
-.chat-messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.feature-card {
+    background: white; padding: 30px; border-radius: 15px;
+    text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s; cursor: pointer;
 }
+.feature-card:hover { transform: translateY(-10px); }
+.feature-icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 20px; display: block; }
+.feature-card h3 { margin-bottom: 15px; color: var(--secondary-color); }
+
+/* --- YOUTUBE VİDEO ALANI --- */
+.video-frame {
+    max-width: 900px; /* Video çok devasa olmasın */
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 5px solid white;
+}
+/* YouTube Responsive Hack (Video oranını korur) */
+.responsive-video {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Oranı */
+    height: 0;
+    overflow: hidden;
+}
+.responsive-video iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* --- CHAT ALANI --- */
+.filiz-section { background: #eef2f3; }
+.chat-layout { display: flex; flex-wrap: wrap; gap: 30px; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.filiz-info { flex: 1; text-align: center; min-width: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.chat-box-container { flex: 2; min-width: 300px; background: #f4f7f6; height: 500px; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; }
+.chat-header { background: #27ae60; color: white; padding: 15px; font-weight: bold; }
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-input-area { padding: 15px; background: white; display: flex; gap: 10px; }
+.chat-input-area input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; }
+.chat-input-area button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 20px; cursor: pointer; }
 
 /* Balonlar */
-.message {
-    display: flex;
-    flex-direction: column;
-}
+.assistant-message { align-self: flex-start; background: white; padding: 10px 15px; border-radius: 15px 15px 15px 0; max-width: 80%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.user-message { align-self: flex-end; background: #dcf8c6; padding: 10px 15px; border-radius: 15px 15px 0 15px; max-width: 80%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-.msg-bubble {
-    padding: 12px 18px;
-    border-radius: 15px;
-    max-width: 80%;
-    font-size: 0.95rem;
-    position: relative;
-    line-height: 1.4;
-}
-
-/* Asistan (Filiz) Mesajı */
-.assistant-message { align-items: flex-start; }
-.assistant-message .msg-bubble {
-    background: white;
-    color: #333;
-    border-bottom-left-radius: 2px; /* Köşe detayı */
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-/* Kullanıcı Mesajı */
-.user-message { align-items: flex-end; }
-.user-message .msg-bubble {
-    background: #dcf8c6; /* WhatsApp yeşili */
-    color: #333;
-    border-bottom-right-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-/* Input Alanı */
-.chat-input-area {
-    padding: 15px;
-    background: white;
-    display: flex;
-    gap: 10px;
-    border-top: 1px solid #ddd;
-}
-
-.chat-input-area input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-    transition: border 0.3s;
-}
-
-.chat-input-area input:focus { border-color: #27ae60; }
-
-.chat-input-area button {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    background: #27ae60;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-.chat-input-area button:hover { transform: scale(1.1); }
-
-/* --- MODAL (POP-UP FOTOĞRAF) --- */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; top: 0; width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.9); 
-}
-.modal-content {
-    margin: auto; display: block; width: 80%; max-width: 700px;
-    border-radius: 10px;
-    margin-top: 100px;
-}
-.close-modal {
-    position: absolute; top: 20px; right: 35px;
-    color: white; font-size: 40px; font-weight: bold; cursor: pointer;
-}
-#caption {
-    margin: auto; display: block; width: 80%; text-align: center; color: #ccc; padding: 10px 0; font-size: 1.2rem;
-}
+/* --- MODAL --- */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
+.modal-content { margin: auto; display: block; width: 80%; max-width: 700px; margin-top: 100px; border-radius: 10px; }
+.close-modal { position: absolute; top: 20px; right: 35px; color: white; font-size: 40px; cursor: pointer; }
