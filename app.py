@@ -4,18 +4,13 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# --- API ANAHTARI AYARLARI ---
-# Güvenlik için ortam değişkeni kontrol edilir, yoksa manuel anahtar denenir.
-try:
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        # NOT: Kodu GitHub'a yüklerken burayı boş bırakmak en iyisidir.
-        api_key = "AIzaSyD17OX3mSYRuIyxcP1ImSkVPlBN6Bt4OEg" 
-    
+api_key = os.getenv("GOOGLE_API_KEY")
+
+    # Eğer bilgisayarında test ediyorsan hata vermesin diye kontrol:
+if not api_key:
+    print("UYARI: API Anahtarı bulunamadı! Render Environment ayarlarını kontrol et.")
+else:
     genai.configure(api_key=api_key)
-    print("✅ Gemini API başarıyla yapılandırıldı.")
-except Exception as e:
-    print(f"❌ HATA: API anahtarı yapılandırılamadı. Hata: {e}")
 
 # --- FİLİZ AI BEYİN FONKSİYONU ---
 def ask_gemini(user_question):
