@@ -6,6 +6,55 @@
     <title>Akıllı Sera | Filiz AI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            padding-top: 50px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+        }
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            font-size: 1.2rem;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
@@ -120,7 +169,7 @@
                                 </div>
                             </div>
                             <h2 style="margin-top: 20px; color: var(--secondary-color);">Merhaba, Ben Filiz AI!</h2>
-                            <p>""Bana 'Çilek hangi modda yetişir?' veya 'Serayı Kış Moduna alırsam ne olur?' diye sorabilirsin."</p>
+                            <p>"Bana 'Çilek hangi modda yetişir?' veya 'Serayı Kış Moduna alırsam ne olur?' diye sorabilirsin."</p>
                         </div>
 
                         <div class="chat-box-container">
@@ -166,11 +215,9 @@
             var modalImg = document.getElementById("modalImage");
             var captionText = document.getElementById("caption");
             
-            // Gerçek projede fotoğrafların varsa: modalImg.src = "static/" + imgSrc;
-            // Şimdilik test için placeholder koyalım:
-            modalImg.src = "https://via.placeholder.com/800x600?text=" + text; 
-            
+            // BURAYI DÜZELTTİK: Artık placeholder değil, gelen resmi kullanıyoruz
             modal.style.display = "block";
+            modalImg.src = imgSrc;
             captionText.innerHTML = text;
         }
 
